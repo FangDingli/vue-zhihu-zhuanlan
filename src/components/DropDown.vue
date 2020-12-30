@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import DropDownItem from './DropDownItem.vue'
+import useClickOutside from '../hooks/useClickOutside'
 const dropDownItem: string[] = ['新建文章', '编辑资料', '退出登录']
 export default defineComponent({
   name: 'DropDown',
@@ -35,20 +36,13 @@ export default defineComponent({
     function toggleActive() {
       isActive.value = !isActive.value
     }
-    // eslint-disable-next-line
-    function handler(e: MouseEvent) {
-      if (dropDownRef.value) {
-        if (!dropDownRef.value.contains(e.target as HTMLElement) && isActive.value) {
-          isActive.value = false
-        }
-      }
-    }
 
-    onMounted(() => {
-      document.addEventListener('click', handler)
-    })
-    onUnmounted(() => {
-      document.removeEventListener('click', handler)
+    const isClickOutside = useClickOutside(dropDownRef)
+
+    watch(isClickOutside, () => {
+      if (isActive.value && isClickOutside.value) {
+        isActive.value = false
+      }
     })
 
     return {

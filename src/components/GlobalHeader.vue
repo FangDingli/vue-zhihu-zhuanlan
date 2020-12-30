@@ -5,8 +5,10 @@
     </div>
     <div class="end-btn-wrapper">
       <div class="sign no-sign" v-if="!user.isLogin">
-        <button class="button is-primary">登录</button>
-        <button class="button ">注册</button>
+        <router-link :to="'/login'"
+          ><button class="button is-primary">登录</button></router-link
+        >
+        <router-link :to="'/login'"><button class="button ">注册</button></router-link>
       </div>
       <div class="sign is-sign" v-else>
         <DropDown :userName="user.userName"></DropDown>
