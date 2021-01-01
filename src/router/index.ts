@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../view/Home.vue'
 import Login from '../view/Login.vue'
 import ColumnDetail from '../view/ColumnDetail.vue'
+import CreatePost from '../view/CreatePost.vue'
 
 const routerHistory = createWebHistory()
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: Login
+  },
+  {
+    path: "/createPost",
+    name: "createPost",
+    component: CreatePost
   },
   {
     path: "/detail/:id",

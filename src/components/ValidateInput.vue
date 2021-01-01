@@ -9,6 +9,16 @@
         @input="inputChange"
         @blur="inputValidate"
         v-bind="$attrs"
+        v-if="tagType == 'input'"
+      />
+      <textarea
+        class="textarea is-primary"
+        :class="{ 'is-danger': inputRef.isError }"
+        :value="inputRef.inputVal"
+        @input="inputChange"
+        @blur="inputValidate"
+        v-bind="$attrs"
+        v-else
       />
     </div>
     <p v-show="inputRef.isError" class="help is-danger">{{ inputRef.errMessage }}</p>
@@ -16,12 +26,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, onMounted } from 'vue'
+import { defineComponent, PropType, reactive, onMounted, Prop } from 'vue'
 import { emitter } from './ValidateForm.vue'
 interface RuleProps {
   type: 'required' | 'email'
   errMessage: string
 }
+export type TagType = 'input' | 'textarea'
 export type Rules = RuleProps[]
 const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export default defineComponent({
@@ -33,6 +44,10 @@ export default defineComponent({
     rules: {
       type: Array as PropType<Rules>,
       required: false,
+    },
+    tagType: {
+      type: String as PropType<TagType>,
+      default: 'input',
     },
     modelValue: String,
   },

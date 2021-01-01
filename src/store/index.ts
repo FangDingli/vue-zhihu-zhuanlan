@@ -3,7 +3,8 @@ import { testData, testPosts, ColumnProps, PostProps } from '../../testData'
 interface UserProps {
   isLogin: boolean,
   userName?: string,
-  id?: number
+  id?: number,
+  columnId?: number
 }
 
 export interface GlobalDataProps {
@@ -16,7 +17,7 @@ const store = createStore({
   state: {
     columns: testData,
     posts: testPosts,
-    user: { isLogin: false, userName: "" }
+    user: { isLogin: true, userName: "Fang", column: 1 }
   },
   mutations: {
     login(state) {
