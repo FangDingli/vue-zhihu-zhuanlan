@@ -8,11 +8,11 @@ import 'loaders.css'
 
 axios.defaults.baseURL = 'http://apis.imooc.com/api/'
 axios.interceptors.request.use(config => {
-  config.params = { ...config.params, icode: '0B62AD9814C3DAFC' }
+  config.params = { ...config.params, icode: '******' }
   if (config.data instanceof FormData) {
     config.data.append('icode', '0B62AD9814C3DAFC')
   } else {
-    config.data = { ...config.data, icode: '0B62AD9814C3DAFC' }
+    config.data = { ...config.data, icode: '******' }
   }
   store.commit("setLoading", true)
   store.commit('setError', { status: false })
