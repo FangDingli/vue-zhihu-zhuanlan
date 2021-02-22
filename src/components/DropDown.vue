@@ -7,19 +7,19 @@
   >
     <a class="navbar-link has-text-white" style="user-select:none;">欢迎{{ userName }}</a>
     <div class="navbar-dropdown" style="margin-top:10px;">
-      <DropDownItem
-        v-for="(item, index) in dropDownItem"
-        :key="index"
-        :items="item"
-      ></DropDownItem>
+      <DropDownItem :items="'新建文章'" @click="toCreatePost"></DropDownItem>
+      <DropDownItem :items="'编辑资料'"></DropDownItem>
+      <DropDownItem :items="'退出登录'" @click="logout"></DropDownItem>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import DropDownItem from './DropDownItem.vue'
 import useClickOutside from '../hooks/useClickOutside'
+import createMessage from './createMessage'
 const dropDownItem: string[] = ['新建文章', '编辑资料', '退出登录']
 export default defineComponent({
   name: 'DropDown',
@@ -32,11 +32,21 @@ export default defineComponent({
   setup() {
     // eslint-disable-next-line
     let isActive = ref(false)
+    const router = useRouter()
     const dropDownRef = ref<null | HTMLElement>(null)
     function toggleActive() {
       isActive.value = !isActive.value
     }
-
+    function toCreatePost() {
+      router.push('/createPost')
+    }
+    function logout() {
+      localStorage.removeItem('token')
+      createMessage('操作成功，2s后刷新页面', 'success')
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    }
     const isClickOutside = useClickOutside(dropDownRef)
 
     watch(isClickOutside, () => {
@@ -50,6 +60,8 @@ export default defineComponent({
       toggleActive,
       dropDownItem,
       dropDownRef,
+      toCreatePost,
+      logout,
     }
   },
   components: {

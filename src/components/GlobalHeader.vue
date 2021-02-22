@@ -1,17 +1,17 @@
 <template>
   <nav class="navbar is-info global-header" style="height:52px;">
-    <div class="navbar-brand">
+    <router-link to="/" tag="div" class="navbar-brand">
       这里放Logo
-    </div>
+    </router-link>
     <div class="end-btn-wrapper">
       <div class="sign no-sign" v-if="!user.isLogin">
         <router-link :to="'/login'"
           ><button class="button is-primary">登录</button></router-link
         >
-        <router-link :to="'/login'"><button class="button ">注册</button></router-link>
+        <router-link :to="'/register'"><button class="button ">注册</button></router-link>
       </div>
       <div class="sign is-sign" v-else>
-        <DropDown :userName="user.userName"></DropDown>
+        <DropDown :userName="user.nickName"></DropDown>
       </div>
     </div>
   </nav>
@@ -20,11 +20,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import DropDown from './DropDown.vue'
-export interface UserProps {
-  isLogin: boolean
-  userName?: string
-  id?: number
-}
+import { UserProps } from '../store/'
+
 export default defineComponent({
   name: 'GlobalHeader',
   props: {

@@ -26,11 +26,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, onMounted, Prop } from 'vue'
+import { defineComponent, PropType, reactive, onMounted } from 'vue'
 import { emitter } from './ValidateForm.vue'
 interface RuleProps {
-  type: 'required' | 'email'
+  type: 'required' | 'email' | 'custom'
   errMessage: string
+  validate?: () => boolean
 }
 export type TagType = 'input' | 'textarea'
 export type Rules = RuleProps[]
@@ -74,6 +75,9 @@ export default defineComponent({
               break
             case 'email':
               passed = emailReg.test(inputRef.inputVal)
+              break
+            case 'custom':
+              passed = item.validate ? item.validate() : true
               break
             default:
               break

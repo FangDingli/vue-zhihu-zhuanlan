@@ -1,9 +1,9 @@
 <template>
   <div>
-    <article class="media" v-for="item in postList" :key="item.id">
-      <figure class="media-left">
-        <p class="image">
-          <img :src="item.image" />
+    <article class="media post-item" v-for="item in postList" :key="item._id">
+      <figure class="media-left" v-if="item.image">
+        <p class="image is-96x96">
+          <img :src="item.image.url" />
         </p>
       </figure>
       <div class="media-content">
@@ -11,7 +11,7 @@
           <p>
             <strong>{{ item.title }}</strong>
             <br />
-            {{ item.content }}
+            {{ item.excerpt }}
           </p>
         </div>
         <nav class="level is-mobile">
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { PostProps } from '../../testData'
+import { PostProps } from '../store'
 export default defineComponent({
   props: {
     postList: {
@@ -40,4 +40,10 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.post-item {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 15px;
+}
+</style>

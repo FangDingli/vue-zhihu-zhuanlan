@@ -9,7 +9,7 @@
       <div class="media">
         <div class="media-left">
           <figure class="image is-48x48">
-            <img :src="profile.avatar" :alt="profile.title" />
+            <img :src="profile.avatar.url" :alt="profile.title" />
           </figure>
         </div>
         <div class="media-content">
@@ -30,19 +30,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import PostList from '../components/PostList.vue'
+import { GlobalDataProps } from '../store'
 export default defineComponent({
   name: 'ColumnDetail',
   setup() {
     const route = useRoute()
-    const store = useStore()
-    const currentId = Number(route.params.id)
-    const profile = store.getters.getProfileById(currentId)
-    const postList = store.getters.getPostById(currentId)
-    console.log(profile, postList)
+    const store = useStore<GlobalDataProps>()
+    const currentId = route.params.id
+    const profile = computed(() => store.getters.getProfileById(currentId))
+    const postList = computed(() => store.getters.getPostById(currentId))
+
+    onMounted(() => {
+      store.dispatch('fetchColumn', currentId)
+      store.dispatch('fetchPosts', currentId)
+    })
     return {
       profile,
       postList,
